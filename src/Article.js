@@ -1,21 +1,14 @@
 import React, {Component} from 'react'
 
 export default class Article extends Component {
+
     state = {
-        isOpen: false
+        isOpen: false,
+        btnOpen: false
     }
-/*
-    constructor(props) {
-        super(props)
-        this.state = {
-            isOpen: props.defaultOpen
-        }
-    }
-*/
 
     render() {
         const {article} = this.props
-        console.log('---', 123)
         return (
             <div>
                 <h3 onClick={this.handleClick}>{article.title}</h3>
@@ -26,10 +19,11 @@ export default class Article extends Component {
 
     getBody() {
         if (!this.state.isOpen) return null
-
         return (
             <section>
                 {this.props.article.text}
+                {this.createButton()}
+                {this.getComments()}
             </section>
         )
     }
@@ -38,5 +32,38 @@ export default class Article extends Component {
         this.setState({
             isOpen: !this.state.isOpen
         })
+    }
+
+    getComments() {
+        if ( !this.state.btnOpen ) return
+        return ( 
+            this.props.article.comments.map(( item ) => 
+                <div key={ item.id }>
+                    <hr/>
+                    <h4>{ item.user }</h4>
+                    <p>{ item.text }</p>
+                </div>
+            )
+        )
+    }
+
+    createButton() {
+        if ( !this.props.article.comments ) return
+        return (
+            <div>
+                <hr/>
+                <button onClick={ this.btnClick } type="button">{ this.getButtonText() } ({this.props.article.comments.length})</button>
+            </div>
+        )
+    }
+
+    btnClick = (ev) => {
+        this.setState({
+            btnOpen: !this.state.btnOpen
+        })
+    }
+
+    getButtonText() {
+        return ( !this.state.btnOpen ) ? 'show comments' : 'hide comments'
     }
 }
