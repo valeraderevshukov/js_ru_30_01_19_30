@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 
+//Компонент становиться очень большим, лучше разбить его на более мелкие: Article, CommentList и Comment
 export default class Article extends Component {
 
     state = {
