@@ -11,6 +11,7 @@ class ArticleList extends Component {
             comments: PropTypes.array
         })).isRequired,
         toggleOpen: PropTypes.func.isRequired
+        //еще accordionOpenId
     }
 
     render() {
