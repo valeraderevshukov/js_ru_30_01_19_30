@@ -1,28 +1,21 @@
-import React from 'react'
-export default (Component) => class WrappedComponent extends React.Component {
+import React, {Component as ReactComponent}  from 'react'
 
+export default (Component) => class Accordion extends ReactComponent {
     state = {
-        accordionOpenId: null
-    }
-
-    toggleOpen = accordionOpenId => ev => {
-        ev && ev.preventDefault && ev.preventDefault()
-        
-        if (this.state.accordionOpenId == accordionOpenId) {
-            this.setState({
-                accordionOpenId: null
-            })
-            // console.log(this.state.accordionOpenId)
-        }
-        else {
-            this.setState({
-                accordionOpenId
-            })
-            // console.log(this.state.accordionOpenId)
-        }
+        openItemId: null
     }
 
     render() {
-        return <Component {...this.props} {...this.state} toggleOpen={this.toggleOpen}/>
+        return <Component {...this.props} isOpenItem = {this.isOpenItem} toggleOpenItem = {this.toggleOpenItem}/>
+    }
+
+    isOpenItem = id => this.state.openItemId === id
+
+
+    toggleOpenItem = id => ev => {
+        ev && ev.preventDefault && ev.preventDefault()
+        this.setState({
+            openItemId: this.isOpenItem(id) ? null : id
+        })
     }
 }

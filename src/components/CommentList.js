@@ -2,16 +2,23 @@ import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
 
 class CommentList extends Component {
+    static propTypes = {
+        comments: PropTypes.array
+    }
     static defaultProps = {
         comments: []
     }
+    componentDidMount() {
+        console.log('---', 'mounted')
+    }
 
-    static propTypes = {
-        comments: PropTypes.arrayOf(React.PropTypes.shape({
-            user: PropTypes.string.isRequired,
-            text: PropTypes.string.isRequired,
-            id: PropTypes.number.isRequired
-        })).isRequired
+    componentWillReceiveProps(nextProps) {
+       // console.log('---', this.props, nextProps)
+    }
+
+
+    componentWillUnmount() {
+        //console.log('---', 'unmounting')
     }
 
     state = {
@@ -24,6 +31,7 @@ class CommentList extends Component {
             <div>
                 <a href="#" onClick={this.toggleOpen}>{actionText} comments</a>
                 {this.getBody()}
+                {this.commentFrom()}
             </div>
         )
     }
@@ -43,6 +51,29 @@ class CommentList extends Component {
         this.setState({
             isOpen: !this.state.isOpen
         })
+    }
+
+    commentFrom() {
+        if (!this.state.isOpen) return null;
+
+        return <form onSubmit={this.handleSubmit} style={{marginLeft: '25px'}}>
+            <input type="text" name="user" placeholder="User" 
+                style={{
+                width: '300px', 
+                marginTop: '30px', 
+                display: 'block'}}/>
+            <textarea name="comment" placeholder="Comment" 
+                style={{
+                    width: '300px', 
+                    marginTop: '10px', 
+                    display: 'block'}}/>
+            <button type="submit" style={{marginTop: '10px' }}>add comment</button>
+        </form>;
+    }
+    handleSubmit = (ev) => {
+        // console.log('user -' + ev.target.user.value, 'comment -' + ev.target.comment.value);
+        ev.target.reset();
+        ev.preventDefault();
     }
 }
 
