@@ -55,7 +55,7 @@ class CommentList extends Component {
 
     commentFrom() {
         if (!this.state.isOpen) return null;
-
+        //стоит вынести в отдельный компонент
         return <form onSubmit={this.handleSubmit} style={{marginLeft: '25px'}}>
             <input type="text" name="user" placeholder="User" 
                 style={{
@@ -71,6 +71,7 @@ class CommentList extends Component {
         </form>;
     }
     handleSubmit = (ev) => {
+        //лучше держать значения полей в state, а не взаимодействовать с DOM
         // console.log('user -' + ev.target.user.value, 'comment -' + ev.target.comment.value);
         ev.target.reset();
         ev.preventDefault();
