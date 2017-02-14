@@ -71,7 +71,7 @@ class CommentList extends Component {
         </form>;
     }
     handleSubmit = (ev) => {
-        // console.log('user -' + ev.target.user.value, 'comment -' + ev.target.comment.value);
+        console.log('user -' + ev.target.user.value, 'comment -' + ev.target.comment.value);
         ev.target.reset();
         ev.preventDefault();
     }
