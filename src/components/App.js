@@ -6,6 +6,7 @@ import Counter from './Counter'
 import {connect} from 'react-redux'
 import MultiSelect from './MultiSelect'
 
+//А где сама фильтрация?
 class App extends Component {
     state = {
         user: ''
