@@ -1,4 +1,6 @@
-import {INCREMENT, DELETE_ARTICLE, DATE_FILTER, SELECT_FILTER} from '../constants'
+import {INCREMENT, DELETE_ARTICLE, CHANGE_DATE_RANGE, CHANGE_SELECTION, LOAD_ALL_ARTICLES, START, SUCCESS, FAIL} from '../constants'
+import $ from 'jquery'
+
 
 export function increment() {
     const action = {
@@ -15,16 +17,43 @@ export function deleteArticle(id) {
     }
 }
 
-export function dateFilter(dayFrom, dayTo) {
-	return {
-	    type: DATE_FILTER,
-	    payload: { from: dayFrom, to: dayTo }
-	}
+export function changeDateRange(dateRange) {
+    return {
+        type: CHANGE_DATE_RANGE,
+        payload: { dateRange }
+    }
 }
 
-export function selectFilter(value) {
+export function changeSelection(selected) {
     return {
-        type: SELECT_FILTER,
-        payload: { value }
+        type: CHANGE_SELECTION,
+        payload: { selected }
+    }
+}
+
+export function loadAllArticles() {
+    return {
+        type: LOAD_ALL_ARTICLES,
+        callAPI: '/api/article'
+    }
+}
+
+export function loadAllArticlesThunk() {
+    return (dispatch) => {
+        dispatch({
+            type: LOAD_ALL_ARTICLES + START
+        })
+
+        setTimeout(() => {
+            $.get('/api/article')
+                .done(response => dispatch({
+                    type: LOAD_ALL_ARTICLES + SUCCESS,
+                    response
+                }))
+                .fail(error => dispatch({
+                    type: LOAD_ALL_ARTICLES + FAIL,
+                    error
+                }))
+        }, 1000)
     }
 }
